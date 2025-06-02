@@ -84,15 +84,15 @@ export default function ViewDocumentPage() {
                   src={fileUrl}
                   alt={fileName}
                   data-ai-hint={dataAiHint || "medical scan"} 
-                  width={600} 
-                  height={800} 
-                  className="max-w-full h-auto max-h-[75vh] rounded-md object-contain shadow-md"
+                  width={800} // Aumentado para mejor visualización de PDFs como imagen
+                  height={1100} // Aumentado para mejor visualización de PDFs como imagen
+                  className="max-w-full h-auto max-h-[80vh] rounded-md object-contain shadow-md"
                   priority
                 />
             </div>
           ) : (
              <div className="p-8 text-center">
-                <p className="text-muted-foreground">Tipo de archivo no soportado para visualización directa.</p>
+                <p className="text-muted-foreground">Tipo de archivo no soportado para visualización directa o archivo no encontrado.</p>
              </div>
           )}
         </CardContent>

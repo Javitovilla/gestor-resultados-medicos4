@@ -3,24 +3,24 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileImage, Eye, Info } from "lucide-react";
+import { Download, FileText, Eye, Info } from "lucide-react";
 import type { Document } from "@/types";
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 
-// Documento de ejemplo para el paciente - Ahora una imagen de Rayos X local
+// Documento de ejemplo para el paciente - Ahora un PDF local
 const patientDocument: Document = {
   id: "patient-doc-001",
-  name: "Radiografía de Rodilla - Ejemplo",
-  type: "image", 
+  name: "Reporte Médico de Ejemplo",
+  type: "pdf", 
   uploadDate: new Date(2024, 7, 15, 10, 30).toISOString(), // Agosto 15, 2024
-  fileUrl: "/images/xrays/radiografia_rodilla_ejemplo.png", // Ruta a una imagen local en public/images/xrays/
-  dataAiHint: "knee x-ray", // Pista para la imagen
-  textContent: "Paciente: Paciente Demo. Radiografía de rodilla derecha, proyecciones AP y lateral. Se observa integridad de las estructuras óseas, sin evidencia de fracturas agudas o luxaciones. Espacios articulares conservados. Leves signos de osteoartrosis incipiente.",
-  summary: "Paciente Demo presenta una radiografía de rodilla con hallazgos de osteoartrosis incipiente, sin fracturas. Se recomienda seguimiento médico.",
-  tags: ["radiografia", "rodilla", "diagnostico-por-imagen"],
-  size: "1.2 MB", // Tamaño de ejemplo
+  fileUrl: "/documents/reporte_medico_ejemplo.pdf", // Ruta a un PDF local en public/documents/
+  // dataAiHint ya no es necesario para PDF, pero podría mantenerse si se quisiera una miniatura
+  textContent: "Paciente: Paciente Demo. Este es el contenido textual de un reporte médico de ejemplo. Incluye hallazgos importantes y un diagnóstico preliminar. Se recomienda discutir estos resultados con su médico.",
+  summary: "Paciente Demo presenta un reporte médico con varios hallazgos. Se recomienda seguimiento médico para discutir los resultados en detalle.",
+  tags: ["reporte", "pdf", "diagnostico"],
+  size: "0.8 MB", // Tamaño de ejemplo
 };
 
 export default function DashboardPage() {
@@ -30,8 +30,7 @@ export default function DashboardPage() {
     if (patientDocument.fileUrl) {
       const link = document.createElement('a');
       link.href = patientDocument.fileUrl;
-      // El nombre de descarga puede ser solo el nombre, el navegador inferirá la extensión
-      link.download = patientDocument.name; 
+      link.download = patientDocument.name + (patientDocument.type === 'pdf' ? '.pdf' : `.${patientDocument.fileUrl.split('.').pop() || 'png'}`); 
       link.target = '_blank'; 
       document.body.appendChild(link);
       link.click();
@@ -45,22 +44,21 @@ export default function DashboardPage() {
       params.append('fileUrl', patientDocument.fileUrl);
       params.append('fileName', patientDocument.name);
       params.append('fileType', patientDocument.type);
+      // dataAiHint no es relevante para PDF en el visualizador, pero no hace daño pasarlo
       if (patientDocument.dataAiHint) {
         params.append('dataAiHint', patientDocument.dataAiHint);
       }
       router.push(`/dashboard/view-document?${params.toString()}`);
     } else {
-      // Idealmente, mostrarías un toast o un mensaje más amigable
       alert("Este documento no se puede visualizar o no tiene un archivo asociado.");
     }
   };
 
   const getDocumentIcon = () => {
-    // Este icono es para la tarjeta en el dashboard, no para el visualizador
     if (patientDocument.type === 'pdf') {
-      return <FileImage className="h-8 w-8 text-primary" />; 
+      return <FileText className="h-8 w-8 text-primary" />; 
     } else if (patientDocument.type === 'image') {
-      return <FileImage className="h-8 w-8 text-primary" />;
+      return <FileText className="h-8 w-8 text-primary" />; // Usamos FileText para PDF
     }
     return <Info className="h-8 w-8 text-primary" />;
   };
@@ -98,7 +96,7 @@ export default function DashboardPage() {
               <Eye className="mr-2 h-4 w-4" /> Visualizar Resultado
             </Button>
             <Button onClick={handleDownload} className="w-full sm:w-auto" variant="outline" disabled={!patientDocument.fileUrl}>
-              <Download className="mr-2 h-4 w-4" /> Descargar {patientDocument.type === 'pdf' ? 'PDF' : 'Imagen'}
+              <Download className="mr-2 h-4 w-4" /> Descargar {patientDocument.type === 'pdf' ? 'PDF' : 'Documento'}
             </Button>
           </div>
 
