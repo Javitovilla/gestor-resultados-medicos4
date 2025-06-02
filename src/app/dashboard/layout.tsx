@@ -13,7 +13,7 @@ export default function DashboardLayout({
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <div className="flex h-screen items-center justify-center"><p>Loading dashboard...</p></div>;
+    return <div className="flex h-screen items-center justify-center bg-background"><p>Cargando panel...</p></div>;
   }
 
   if (!isAuthenticated) {
@@ -28,7 +28,7 @@ export default function DashboardLayout({
         {children}
       </main>
       <footer className="py-6 text-center text-sm text-muted-foreground border-t">
-        © {new Date().getFullYear()} MediResults Manager. All rights reserved.
+        © {new Date().getFullYear()} MediResults Manager. Todos los derechos reservados.
       </footer>
     </div>
   );
