@@ -3,23 +3,24 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, FileText, Info, FileImage, Eye } from "lucide-react";
+import { Download, FileImage, Eye, Info } from "lucide-react";
 import type { Document } from "@/types";
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 
-// Documento de ejemplo para el paciente
+// Documento de ejemplo para el paciente - Ahora una imagen de Rayos X
 const patientDocument: Document = {
   id: "patient-doc-001",
-  name: "Mis Resultados de Laboratorio - Julio 2024",
-  type: "pdf", 
-  uploadDate: new Date(2024, 6, 15, 10, 30).toISOString(), // Julio 15, 2024
-  fileUrl: "https://placehold.co/800x1100.pdf", 
-  textContent: "Paciente: Paciente Demo. Resultados del hemograma completo y perfil lipídico. Todos los valores se encuentran dentro de los rangos de referencia normales. Se recomienda seguimiento anual.",
-  summary: "Paciente Demo presenta resultados de laboratorio normales para el periodo evaluado. Se aconseja continuar con un estilo de vida saludable y realizar controles médicos anuales según indicación.",
-  tags: ["laboratorio", "chequeo-anual", "perfil-lipidico"],
-  size: "1.2 MB",
+  name: "Radiografía de Rodilla - Agosto 2024",
+  type: "image", 
+  uploadDate: new Date(2024, 7, 5, 9, 15).toISOString(), // Agosto 5, 2024
+  fileUrl: "https://placehold.co/600x800.png", // Placeholder para imagen de Rayos X
+  dataAiHint: "knee x-ray", // Pista para la imagen
+  textContent: "Paciente: Paciente Demo. Radiografía de rodilla derecha, proyecciones AP y lateral. Se observa integridad de las estructuras óseas, sin evidencia de fracturas agudas o luxaciones. Espacios articulares conservados. Leves signos de osteoartrosis incipiente.",
+  summary: "Paciente Demo presenta una radiografía de rodilla con hallazgos de osteoartrosis incipiente, sin fracturas. Se recomienda seguimiento médico.",
+  tags: ["radiografia", "rodilla", "diagnostico-por-imagen"],
+  size: "0.8 MB",
 };
 
 export default function DashboardPage() {
@@ -29,7 +30,8 @@ export default function DashboardPage() {
     if (patientDocument.fileUrl) {
       const link = document.createElement('a');
       link.href = patientDocument.fileUrl;
-      link.download = patientDocument.name + (patientDocument.type === 'pdf' ? '.pdf' : '');
+      // Para imágenes, el nombre de descarga puede ser solo el nombre, el navegador inferirá la extensión por el tipo de contenido o la URL
+      link.download = patientDocument.name; 
       link.target = '_blank'; 
       document.body.appendChild(link);
       link.click();
@@ -38,20 +40,16 @@ export default function DashboardPage() {
   };
 
   const handleViewDocument = () => {
-    if (patientDocument.fileUrl && patientDocument.type === 'pdf') {
-      router.push(`/dashboard/view-document?fileUrl=${encodeURIComponent(patientDocument.fileUrl)}&fileName=${encodeURIComponent(patientDocument.name)}`);
-    } else if (patientDocument.fileUrl && patientDocument.type === 'image') {
-      // Podríamos tener una ruta similar para imágenes si se desea en el futuro
-       router.push(`/dashboard/view-document?fileUrl=${encodeURIComponent(patientDocument.fileUrl)}&fileName=${encodeURIComponent(patientDocument.name)}&fileType=image`);
+    if (patientDocument.fileUrl) {
+      router.push(`/dashboard/view-document?fileUrl=${encodeURIComponent(patientDocument.fileUrl)}&fileName=${encodeURIComponent(patientDocument.name)}&fileType=${patientDocument.type}`);
     } else {
-      // Manejar otros tipos o si no hay URL
       alert("Este documento no se puede visualizar o no tiene un archivo asociado.");
     }
   };
 
   const getDocumentIcon = () => {
     if (patientDocument.type === 'pdf') {
-      return <FileText className="h-8 w-8 text-primary" />;
+      return <FileImage className="h-8 w-8 text-primary" />; // Cambiado a FileImage si es PDF, debe ser FileText
     } else if (patientDocument.type === 'image') {
       return <FileImage className="h-8 w-8 text-primary" />;
     }
@@ -91,7 +89,7 @@ export default function DashboardPage() {
               <Eye className="mr-2 h-4 w-4" /> Visualizar Resultado
             </Button>
             <Button onClick={handleDownload} className="w-full sm:w-auto" variant="outline" disabled={!patientDocument.fileUrl}>
-              <Download className="mr-2 h-4 w-4" /> Descargar PDF
+              <Download className="mr-2 h-4 w-4" /> Descargar {patientDocument.type === 'pdf' ? 'PDF' : 'Imagen'}
             </Button>
           </div>
 

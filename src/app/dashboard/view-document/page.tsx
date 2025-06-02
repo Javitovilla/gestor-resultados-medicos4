@@ -19,7 +19,7 @@ export default function ViewDocumentPage() {
     if (fileUrl) {
       const link = document.createElement('a');
       link.href = fileUrl;
-      link.download = fileName + (fileType === 'pdf' ? '.pdf' : '');
+      link.download = fileName + (fileType === 'pdf' ? '.pdf' : `.${fileUrl.split('.').pop() || 'png'}`); // Intenta obtener extensión para imagen
       link.target = '_blank';
       document.body.appendChild(link);
       link.click();
@@ -82,9 +82,9 @@ export default function ViewDocumentPage() {
                <NextImage
                   src={fileUrl}
                   alt={fileName}
-                  data-ai-hint="medical result image"
-                  width={800} 
-                  height={1100} 
+                  data-ai-hint="knee x-ray" // Pista AI para la imagen
+                  width={600} // Ajustar según la proporción de la imagen de placeholder o esperada
+                  height={800} 
                   className="max-w-full h-auto max-h-[75vh] rounded-md object-contain shadow-md"
                   priority
                 />
