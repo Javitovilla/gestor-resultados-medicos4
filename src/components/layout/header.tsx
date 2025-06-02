@@ -28,7 +28,7 @@ export function Header() {
           <Image 
             src="https://placehold.co/150x40.png" 
             alt="MediResults Logo" 
-            data-ai-hint="medical health technology" 
+            data-ai-hint="glowing cross" 
             width={150} 
             height={40} 
             className="object-contain"
