@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
 import { Loader2, LogIn } from "lucide-react";
@@ -21,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 
 
 const formSchema = z.object({
+  documentType: z.string().min(1, { message: "Seleccione un tipo de documento." }),
   email: z.string().min(1, { message: "El número de identificación es requerido." }),
   password: z.string().min(6, { message: "La clave debe tener al menos 6 caracteres." }),
 });
@@ -33,6 +35,7 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      documentType: "",
       email: "",
       password: "",
     },
@@ -42,8 +45,9 @@ export function LoginForm() {
     setIsLoading(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
+    // For demo purposes, login logic remains simple and ignores documentType for authentication
     if (values.email === "123456" && values.password === "123456") {
-      login("mock-auth-token"); // Mock login
+      login("mock-auth-token"); 
       toast({
         title: "Inicio de Sesión Exitoso",
         description: "¡Bienvenido de nuevo!",
@@ -61,6 +65,29 @@ export function LoginForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="documentType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tipo de Documento</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccione su tipo de documento" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="CC">Cédula de Ciudadanía</SelectItem>
+                  <SelectItem value="CE">Cédula de Extranjería</SelectItem>
+                  <SelectItem value="PA">Pasaporte</SelectItem>
+                  <SelectItem value="TI">Tarjeta de Identidad</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"
