@@ -48,6 +48,10 @@
     --sidebar-accent-foreground: 145 50% 30%;
     --sidebar-border: 210 20% 85%;
     --sidebar-ring: 205 70% 55%;
+
+    /* Custom layout backgrounds */
+    --auth-layout-background-hsl: 205 75% 92%; /* Pastel Blue */
+    --dashboard-layout-background-hsl: 145 60% 92%; /* Pastel Green */
   }
 
   .dark {
@@ -94,6 +98,10 @@
     --sidebar-accent-foreground: 145 45% 20%;
     --sidebar-border: 220 15% 25%;
     --sidebar-ring: 205 65% 58%;
+
+    /* Custom layout backgrounds for dark mode */
+    --auth-layout-background-hsl: 205 30% 15%; /* Darker Pastel Blue */
+    --dashboard-layout-background-hsl: 145 25% 15%; /* Darker Pastel Green */
   }
 }
 

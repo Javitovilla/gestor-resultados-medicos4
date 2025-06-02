@@ -65,6 +65,8 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        'auth-layout-background': 'hsl(var(--auth-layout-background-hsl))',
+        'dashboard-layout-background': 'hsl(var(--dashboard-layout-background-hsl))',
       },
       borderRadius: {
         lg: 'var(--radius)',
