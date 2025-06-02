@@ -4,25 +4,24 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 200 50"
-      width="150"
-      height="37.5"
+      viewBox="0 0 64 64"
+      width="50"
+      height="50"
       aria-label="MediResults Manager Logo"
       {...props}
     >
-      <rect width="200" height="50" fill="transparent" />
-      <path d="M10 10 H30 L20 30 Z M25 35 A5 5 0 1 1 25 45 A5 5 0 1 1 25 35" fill="hsl(var(--primary))" />
-      <text
-        x="40"
-        y="35"
-        fontFamily="Space Grotesk, sans-serif"
-        fontSize="28"
-        fill="hsl(var(--foreground))"
-        className="font-headline"
-      >
-        MediResults
-      </text>
-       <path d="M10 10 L20 10 L15 20 Z" fill="hsl(var(--accent))" transform="translate(5,5) scale(0.5)" />
+      <rect width="64" height="64" fill="transparent" />
+      {/* Outer circle (optional, for a more "icon" feel) */}
+      {/* <circle cx="32" cy="32" r="30" fill="hsl(var(--background))" stroke="hsl(var(--primary))" strokeWidth="2" /> */}
+      
+      {/* Medical Cross */}
+      <g transform="translate(2 2)"> {/* Slight padding if needed */}
+        {/* Vertical bar of the cross */}
+        <rect x="27" y="12" width="6" height="36" fill="hsl(var(--primary))" rx="1.5" ry="1.5" />
+        {/* Horizontal bar of the cross */}
+        <rect x="12" y="27" width="36" height="6" fill="hsl(var(--primary))" rx="1.5" ry="1.5" />
+      </g>
+      {/* You can add text next to it if needed, like in the original, but the request was for the logo itself */}
     </svg>
   );
 }

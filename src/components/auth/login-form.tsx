@@ -21,8 +21,8 @@ import { useToast } from "@/hooks/use-toast";
 
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  email: z.string().min(1, { message: "El número de identificación es requerido." }),
+  password: z.string().min(6, { message: "La clave debe tener al menos 6 caracteres." }),
 });
 
 export function LoginForm() {
@@ -42,17 +42,17 @@ export function LoginForm() {
     setIsLoading(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    if (values.email === "user@example.com" && values.password === "password") {
+    if (values.email === "123456" && values.password === "123456") {
       login("mock-auth-token"); // Mock login
       toast({
-        title: "Login Successful",
-        description: "Welcome back!",
+        title: "Inicio de Sesión Exitoso",
+        description: "¡Bienvenido de nuevo!",
       });
     } else {
       toast({
         variant: "destructive",
-        title: "Login Failed",
-        description: "Invalid email or password.",
+        title: "Fallo de Inicio de Sesión",
+        description: "Número de identificación o clave inválidos.",
       });
     }
     setIsLoading(false);
@@ -66,9 +66,9 @@ export function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>Número de Identificación</FormLabel>
               <FormControl>
-                <Input placeholder="name@example.com" {...field} />
+                <Input placeholder="Su número de identificación" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,7 +79,7 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Clave</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="••••••••" {...field} />
               </FormControl>
@@ -93,7 +93,7 @@ export function LoginForm() {
           ) : (
             <LogIn className="mr-2 h-4 w-4" />
           )}
-          Sign In
+          Iniciar Sesión
         </Button>
       </form>
     </Form>

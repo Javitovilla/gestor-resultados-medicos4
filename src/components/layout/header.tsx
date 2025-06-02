@@ -23,7 +23,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <Logo className="h-8 w-auto" />
+          <Logo className="h-10 w-10" /> 
+          <span className="font-headline text-xl font-semibold text-foreground">MediResults</span>
         </Link>
 
         {isAuthenticated && (
@@ -42,9 +43,9 @@ export function Header() {
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Demo User</p>
+                    <p className="text-sm font-medium leading-none">Usuario Demo</p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      user@example.com
+                      123456
                     </p>
                   </div>
                 </DropdownMenuLabel>
@@ -55,12 +56,12 @@ export function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <span>Configuración</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <span>Cerrar Sesión</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

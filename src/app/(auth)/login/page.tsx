@@ -7,10 +7,10 @@ export default function LoginPage() {
     <Card className="w-full max-w-md shadow-xl">
       <CardHeader className="text-center">
         <div className="mx-auto mb-4 w-fit">
-         <Logo />
+         <Logo className="h-16 w-16" />
         </div>
-        <CardTitle className="font-headline text-3xl">Welcome Back</CardTitle>
-        <CardDescription>Sign in to manage your medical results.</CardDescription>
+        <CardTitle className="font-headline text-3xl">Bienvenido</CardTitle>
+        <CardDescription>Inicie sesión para gestionar sus resultados médicos.</CardDescription>
       </CardHeader>
       <CardContent>
         <LoginForm />
