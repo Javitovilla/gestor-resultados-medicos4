@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image"; // Import next/image
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, UserCircle, Settings, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { Logo } from "@/components/icons/logo";
+// Logo component is no longer used here, but kept for login page.
 
 export function Header() {
   const { logout, isAuthenticated } = useAuth();
@@ -23,8 +24,18 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <Logo className="h-10 w-10" /> 
-          <span className="font-headline text-xl font-semibold text-foreground">MediResults</span>
+          {/* Updated logo using next/image and a placeholder */}
+          <Image 
+            src="https://placehold.co/150x40.png" 
+            alt="MediResults Logo" 
+            data-ai-hint="medical health technology" 
+            width={150} 
+            height={40} 
+            className="object-contain"
+            priority
+          />
+          {/* The text "MediResults" can be removed if the logo image includes text */}
+          {/* <span className="font-headline text-xl font-semibold text-foreground">MediResults</span> */}
         </Link>
 
         {isAuthenticated && (
@@ -43,16 +54,16 @@ export function Header() {
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Usuario Demo</p>
+                    <p className="text-sm font-medium leading-none">Paciente Demo</p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      123456
+                      ID: 123456
                     </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => window.location.href = '/dashboard'}>
                   <LayoutDashboard className="mr-2 h-4 w-4" />
-                  <span>Dashboard</span>
+                  <span>Mis Resultados</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Settings className="mr-2 h-4 w-4" />
@@ -71,3 +82,4 @@ export function Header() {
     </header>
   );
 }
+

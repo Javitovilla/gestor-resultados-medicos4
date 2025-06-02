@@ -5,6 +5,7 @@ export interface Document {
   type: 'pdf' | 'image' | 'text' | 'other';
   uploadDate: string; // ISO string format
   fileUrl?: string; // Mock URL for original file
+  dataAiHint?: string; // For placeholder images in image documents. Added this field.
   textContent?: string; // For AI summarization input
   summary?: string;
   tags: string[];
