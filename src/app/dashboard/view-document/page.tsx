@@ -3,7 +3,7 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Download, Maximize } from 'lucide-react';
 import NextImage from 'next/image';
 
@@ -14,12 +14,13 @@ export default function ViewDocumentPage() {
   const fileUrl = searchParams.get('fileUrl');
   const fileName = searchParams.get('fileName') || 'Documento';
   const fileType = searchParams.get('fileType') || 'pdf'; // Default to pdf
+  const dataAiHint = searchParams.get('dataAiHint');
 
   const handleDownload = () => {
     if (fileUrl) {
       const link = document.createElement('a');
       link.href = fileUrl;
-      link.download = fileName + (fileType === 'pdf' ? '.pdf' : `.${fileUrl.split('.').pop() || 'png'}`); // Intenta obtener extensión para imagen
+      link.download = fileName + (fileType === 'pdf' ? '.pdf' : `.${fileUrl.split('.').pop() || 'png'}`);
       link.target = '_blank';
       document.body.appendChild(link);
       link.click();
@@ -82,8 +83,8 @@ export default function ViewDocumentPage() {
                <NextImage
                   src={fileUrl}
                   alt={fileName}
-                  data-ai-hint="knee x-ray" // Pista AI para la imagen
-                  width={600} // Ajustar según la proporción de la imagen de placeholder o esperada
+                  data-ai-hint={dataAiHint || "medical scan"} 
+                  width={600} 
                   height={800} 
                   className="max-w-full h-auto max-h-[75vh] rounded-md object-contain shadow-md"
                   priority

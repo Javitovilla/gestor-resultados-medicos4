@@ -9,18 +9,18 @@ import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 
-// Documento de ejemplo para el paciente - Ahora una imagen de Rayos X
+// Documento de ejemplo para el paciente - Ahora una imagen de Rayos X local
 const patientDocument: Document = {
   id: "patient-doc-001",
-  name: "Radiografía de Rodilla - Agosto 2024",
+  name: "Radiografía de Rodilla - Ejemplo",
   type: "image", 
-  uploadDate: new Date(2024, 7, 5, 9, 15).toISOString(), // Agosto 5, 2024
-  fileUrl: "https://placehold.co/600x800.png", // Placeholder para imagen de Rayos X
+  uploadDate: new Date(2024, 7, 15, 10, 30).toISOString(), // Agosto 15, 2024
+  fileUrl: "/images/xrays/radiografia_rodilla_ejemplo.png", // Ruta a una imagen local en public/images/xrays/
   dataAiHint: "knee x-ray", // Pista para la imagen
   textContent: "Paciente: Paciente Demo. Radiografía de rodilla derecha, proyecciones AP y lateral. Se observa integridad de las estructuras óseas, sin evidencia de fracturas agudas o luxaciones. Espacios articulares conservados. Leves signos de osteoartrosis incipiente.",
   summary: "Paciente Demo presenta una radiografía de rodilla con hallazgos de osteoartrosis incipiente, sin fracturas. Se recomienda seguimiento médico.",
   tags: ["radiografia", "rodilla", "diagnostico-por-imagen"],
-  size: "0.8 MB",
+  size: "1.2 MB", // Tamaño de ejemplo
 };
 
 export default function DashboardPage() {
@@ -30,7 +30,7 @@ export default function DashboardPage() {
     if (patientDocument.fileUrl) {
       const link = document.createElement('a');
       link.href = patientDocument.fileUrl;
-      // Para imágenes, el nombre de descarga puede ser solo el nombre, el navegador inferirá la extensión por el tipo de contenido o la URL
+      // El nombre de descarga puede ser solo el nombre, el navegador inferirá la extensión
       link.download = patientDocument.name; 
       link.target = '_blank'; 
       document.body.appendChild(link);
@@ -41,15 +41,24 @@ export default function DashboardPage() {
 
   const handleViewDocument = () => {
     if (patientDocument.fileUrl) {
-      router.push(`/dashboard/view-document?fileUrl=${encodeURIComponent(patientDocument.fileUrl)}&fileName=${encodeURIComponent(patientDocument.name)}&fileType=${patientDocument.type}`);
+      const params = new URLSearchParams();
+      params.append('fileUrl', patientDocument.fileUrl);
+      params.append('fileName', patientDocument.name);
+      params.append('fileType', patientDocument.type);
+      if (patientDocument.dataAiHint) {
+        params.append('dataAiHint', patientDocument.dataAiHint);
+      }
+      router.push(`/dashboard/view-document?${params.toString()}`);
     } else {
+      // Idealmente, mostrarías un toast o un mensaje más amigable
       alert("Este documento no se puede visualizar o no tiene un archivo asociado.");
     }
   };
 
   const getDocumentIcon = () => {
+    // Este icono es para la tarjeta en el dashboard, no para el visualizador
     if (patientDocument.type === 'pdf') {
-      return <FileImage className="h-8 w-8 text-primary" />; // Cambiado a FileImage si es PDF, debe ser FileText
+      return <FileImage className="h-8 w-8 text-primary" />; 
     } else if (patientDocument.type === 'image') {
       return <FileImage className="h-8 w-8 text-primary" />;
     }
